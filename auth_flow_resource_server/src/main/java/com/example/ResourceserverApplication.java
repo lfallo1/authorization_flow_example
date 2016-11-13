@@ -40,7 +40,7 @@ public class ResourceserverApplication extends WebSecurityConfigurerAdapter {
 	@Primary
 	@Bean
 	public RemoteTokenServices tokenService() {
-	    RemoteTokenServices tokenService = new RemoteTokenServices();
+		RemoteTokenServices tokenService = new RemoteTokenServices();
 	    tokenService.setCheckTokenEndpointUrl(
 	      "http://localhost:9000/oauth/check_token");
 	    tokenService.setClientId("acme");
