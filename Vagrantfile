@@ -29,6 +29,9 @@ Vagrant.configure("2") do |config|
   #resource server
   config.vm.network "forwarded_port", guest: 9000, host: 9000
 
+  #resource server DEBUG
+  config.vm.network "forwarded_port", guest: 8000, host: 8000
+
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
   # config.vm.network "private_network", ip: "192.168.33.10"
