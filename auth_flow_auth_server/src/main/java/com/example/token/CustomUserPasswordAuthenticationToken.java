@@ -1,9 +1,11 @@
-package com.example;
+package com.example.token;
 
 import java.util.Collection;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
+
+import com.example.model.UserPrivileges;
 
 /**
  * Custom User Password Authentication Token class
@@ -15,6 +17,22 @@ public class CustomUserPasswordAuthenticationToken extends AbstractAuthenticatio
 	private static final long serialVersionUID = 310L;
 	private final Object principal;
 	private Object credentials;
+	private UserPrivileges userPrivileges;
+
+	/**
+	 * @return the userPrivileges
+	 */
+	public UserPrivileges getUserPrivileges() {
+		return userPrivileges;
+	}
+
+	/**
+	 * @param userPrivileges
+	 *            the userPrivileges to set
+	 */
+	public void setUserPrivileges(UserPrivileges userPrivileges) {
+		this.userPrivileges = userPrivileges;
+	}
 
 
 	public void setCredentials(Object credentials) {

@@ -15,6 +15,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 
+import com.example.token.CustomTokenEnhancer;
+
 @SpringBootApplication
 public class AuthserverApplication {
 
@@ -28,10 +30,15 @@ public class AuthserverApplication {
 
 		@Autowired
 		private AuthenticationManager authenticationManager;
+		
+		@Autowired
+		private CustomTokenEnhancer tokenEnhancer;
 
 		@Override
 		public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-			endpoints.authenticationManager(authenticationManager).tokenStore(tokenStore());
+			endpoints.authenticationManager(authenticationManager)
+				.tokenStore(tokenStore())
+				.tokenEnhancer(tokenEnhancer);
 		}
 		
 		@Override
@@ -50,7 +57,7 @@ public class AuthserverApplication {
 		@Override
 		public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 			clients.inMemory().withClient("acme").secret("acmesecret").resourceIds("RESOURCE_ID")
-					.authorizedGrantTypes("authorization_code", "refresh_token", "implicit", "password")
+					.authorizedGrantTypes("authorization_code", "refresh_token", "implicit", "password", "client_credentials")
 					.scopes("openid");
 		}
 

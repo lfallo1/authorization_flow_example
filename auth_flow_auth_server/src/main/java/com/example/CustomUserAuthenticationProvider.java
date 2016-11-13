@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
+
+import com.example.model.UserPrivileges;
+import com.example.token.CustomUserPasswordAuthenticationToken;
 
 /**
  * custom handler during auth process
@@ -21,6 +25,9 @@ public class CustomUserAuthenticationProvider implements AuthenticationProvider 
 
 	private static final Logger LOGGER = Logger.getLogger(CustomUserAuthenticationProvider.class);
 
+	@Autowired
+	private CustomUserDetailsService userDetailsService;
+	
 	/**
 	 * try to authenticate
 	 */
@@ -38,9 +45,11 @@ public class CustomUserAuthenticationProvider implements AuthenticationProvider 
 			// dummy authentication
 			if(username.toString().toLowerCase().startsWith("lfal")){
 				final List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-				String role = username.equals("lfallo1") ? "ROLE_ADMIN" : "ROLE_USER";
+				String role = username.toString().toLowerCase().equals("lfallo1") ? "ROLE_ADMIN" : "ROLE_USER";
 				grantedAuthorities.add(new SimpleGrantedAuthority(role));
+				
 				auth = new CustomUserPasswordAuthenticationToken(username, password, grantedAuthorities);
+				auth.setUserPrivileges((UserPrivileges)userDetailsService.loadUserByUsername(username.toString()));
 				auth.setDetails(username);
 			}
 		}
