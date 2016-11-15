@@ -29,7 +29,7 @@ Vagrant.configure("2") do |config|
   #puppet provisioning
   config.vm.provision :puppet do |puppet|
     puppet.manifests_path = "puppet/manifests"
-    puppet.manifest_file  = "palas.pp"
+    puppet.manifest_file  = "oauth.pp"
   end
 
 end
